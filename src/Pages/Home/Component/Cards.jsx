@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Stack, Text, Heading, Divider, Button, Image } from '@chakra-ui/react'
+import { Link } from "react-router-dom";
 
-export default function Cards({ data, addCar }) {
+export default function Cards({ data, addCar, idList }) {
+    const [added, setAdded] = useState(false)
+
+    const handleAdded = () => {
+        addCar()
+        setAdded(true)
+    }
   return (
-    <Card bg={'red'} maxW='sm' key={data?.id} >
+    <Card bg={'grey'} border={'solid'} maxW='sm' key={data?.id} >
         <CardBody>
             <Image
             src={data?.portada}
@@ -15,8 +22,8 @@ export default function Cards({ data, addCar }) {
             <Text>
                 {data?.description}
             </Text>
-            <Text color='blue.600' fontSize='2xl'>
-                {data?.cost}
+            <Text color='white' fontSize='2xl'>
+                ${data?.cost}
             </Text>
             </Stack>
         </CardBody>
@@ -24,9 +31,19 @@ export default function Cards({ data, addCar }) {
         <Divider />
 
         <CardFooter>
-            <Button variant='ghost' colorScheme='blue'>
-                Add to cart
-            </Button>
+            {
+                added 
+                ?null
+                :<Button onClick={handleAdded} variant='ghost' color='white'>
+                    Add to cart
+                </Button>
+                
+            }
+            <Link to={`/producto/${idList}`}>
+                <Button onClick={handleAdded} variant='ghost' color='white'>
+                    Details
+                </Button>
+            </Link>
         </CardFooter>
     </Card>
   )
